@@ -1,7 +1,8 @@
+
 const mongoose = require('mongoose');
 
 
-const UserSchema = new mongoose.Schema({
+const TeacherSchema = new mongoose.Schema({
 
     name:{
         type:String,
@@ -18,22 +19,23 @@ const UserSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    isadmin:{
-        type:Boolean,
-        required:true
-    },
-    isteacher:{
-        type:Boolean,
-        required:true
-    },
+
+    assignSubjects:[
+        {
+            subject:{
+                type:mongoose.Schema.Types.ObjectId,
+             }
+        }
+    ],
 
     date:{
         type:Date,
         default:Date.now
     },
+    
 
 });
 
 
 
-module.exports = mongoose.model('user',UserSchema);
+module.exports = mongoose.model('teacher',TeacherSchema);
