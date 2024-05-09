@@ -1,0 +1,76 @@
+
+
+
+.Navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 8rem;
+    background-color: #1560BD;
+    padding: 0.5rem;
+}
+
+
+
+.button{
+
+        display:flex;
+        width: 6rem;     
+        border-radius:8px;
+        padding:0.5rem;
+        outline:none;
+        background-color:grey;
+        cursor:pointer;
+
+}
+
+.container{
+  
+        display:flex;
+        width:90vw;
+        height:300px;
+        align-items:center;
+        justify-content:center;
+        flex-direction:column;
+ 
+}
+
+
+.studentloginbutton{
+
+  
+    width: 8rem;
+    border-radius: 8px;
+    padding: 1rem;
+    outline: none;
+    background-color: #17a2b8;
+    cursor: pointer;
+    border: none;
+}
+
+
+.studentloginbutton:hover{
+
+    scale: 1.1;
+}
+
+
+.teacherloginbutton{
+
+
+        width: 8rem;
+        border-radius: 8px;
+        padding: 1rem;
+        outline: none;
+        background-color: #28a745;
+        cursor: pointer;
+        border: none;
+
+
+} 
+
+
+.teacherloginbutton:hover{
+   
+    scale: 1.1;
+}
