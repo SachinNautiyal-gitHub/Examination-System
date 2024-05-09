@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 
-router.get('/students', fetchUser, async(req, res)=>{
+router.get('/students', fetchUser, async(req, res)=>{   // all student list 
     try {
         const students = Student.find();
         res.send(students);
@@ -17,6 +17,16 @@ router.get('/students', fetchUser, async(req, res)=>{
     }
 })
 
+
+router.get('/students:id', fetchUser, async(req, res)=>{
+    try {
+        const student = Student.find({student:req.student.id});
+        res.send(student);
+    } catch (error) {
+        console.log(error.massage);
+        res.status(500).send('Internal server Error');
+    }
+})
 
 
 router.get('/result:id', fetchUser, async(req,res)=>{

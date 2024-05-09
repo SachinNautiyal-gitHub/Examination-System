@@ -6,12 +6,18 @@ const ResultSchema = new mongoose.Schema({
 
     student:{
       type:mongoose.Schema.Types.ObjectId,
-      ref : "student"
+      ref : "Student"
     },
     semester:{
         type:String,
         required:true
     },
+    subjetcs:[{
+       subject:{
+         type:mongoose.Schema.Types.ObjectId,
+         ref:"Subject"
+       }
+    }]
     
 });
 

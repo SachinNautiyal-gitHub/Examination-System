@@ -35,7 +35,9 @@ router.post('/registeruser',[
        user = await User.create({
           name : req.body.name,
           email : req.body.email,
-          password : secPass
+          password : secPass,
+          isadmin:req.body.isadmin,
+          isteacher:req.body.isteacher
        })
         
        success = true;
@@ -63,7 +65,7 @@ router.post('/registeruser',[
 
   // student sign-up
 
-  router.post('/registeruser',[
+  router.post('/registerstudent',[
     body('name', 'Enter a valid name').isLength({min : 4}),
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Enter a valid Password').isLength({min : 8})
@@ -87,7 +89,9 @@ router.post('/registeruser',[
        student = await Student.create({
           name : req.body.name,
           email : req.body.email,
-          password : secPass
+          password : secPass,
+          fathername:req.body.fathername,
+          enrollment:req.body.enrollment
        })
         
        success = true;
@@ -115,7 +119,7 @@ router.post('/registeruser',[
   
 
   //user login 
-  router.post('/login',[
+  router.post('/userlogin',[
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Password can not be blank').exists(),
  ], async(req, res) =>{

@@ -21,11 +21,17 @@ const SubjectSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-
+    internalMarks:{
+        type:Number,
+        required:true,
+        max:50
+    },
     
-
-
-  
+    externalMarks:{
+        type:Number,
+        required:true,
+        max:100
+    }
 
 });
 

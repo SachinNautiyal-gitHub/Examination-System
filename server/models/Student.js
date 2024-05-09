@@ -9,14 +9,18 @@ const StudentSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-
+    
     email:{
         type:String,
         unique:true,
         required:true
     },
+    password:{
+        type:String,
+        required:true
+    },
 
-    fatherName:{
+    fathername:{
         type:String,
         required : true
     },
@@ -24,10 +28,6 @@ const StudentSchema = new mongoose.Schema({
     enrollment:{
        type:Number,
        required:true
-    },
-    password:{
-        type:String,
-        required:true
     },
 
     date:{
