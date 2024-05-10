@@ -13,7 +13,7 @@ const Login = () => {
         navigate('/studentlogin');
     }
     const handleTeacherClick = () => {
-        navigate('/teacherloign');
+        navigate('/teacherlogin');
     }
 
     const handleOnClick = () => {

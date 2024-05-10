@@ -15,15 +15,15 @@ const StudentSchema = new mongoose.Schema({
         unique:true,
         required:true
     },
+    fathername:{
+        type:String,
+        required : true
+    },
     password:{
         type:String,
         required:true
     },
 
-    fathername:{
-        type:String,
-        required : true
-    },
     
     enrollment:{
        type:Number,
