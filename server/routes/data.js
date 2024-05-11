@@ -4,6 +4,7 @@ const fetchUser = require('../middleware/fetchuser');
 const Student = require('../models/Student');
 const Result = require("../models/Result");
 const Subject = require('../models/Subject');
+const {body, validationResult} = require('express-validator');
 const router = express.Router();
 
 

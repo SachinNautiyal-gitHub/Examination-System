@@ -11,6 +11,7 @@ import TeacherSignup from './components/TeacherSignup';
 import AdminSignup from './components/AdminSignup';
 import AdminLoign from './components/AdminLoign';
 import TeacherLogin from './components/TeacherLogin';
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
 
  
 <Routes>
+
+    <Route path='/' element={<Home/>}/>
    <Route path='/login' element={<Login/>}/>
    <Route path='/studentlogin' element={<StudentLogin/>}/>
    <Route path='/studentsignup' element={<StudentSignup/>}/>
