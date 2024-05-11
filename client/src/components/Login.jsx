@@ -28,7 +28,7 @@ const Login = () => {
 
             <div className={styles.Navbar} >
                 <h1>GBPIET  GhurDarui Pauri Garhwal</h1>
-                <button className={styles.button} onClick={handleOnClick} > LogIn</button>
+                <button className={styles.button} onClick={handleOnClick} > Admin LogIn</button>
             </div>
 
             <div className={styles.container}>
