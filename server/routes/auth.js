@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/Admin');
+const Admin = require('../models/Admin');
 const Student = require('../models/Student');
+const Teacher = require('../models/Teacher');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {body, validationResult} = require('express-validator');
@@ -10,11 +11,12 @@ const fetchuser = require('../middleware/fetchuser');
 
 
 
-// user sign up
+// Admin sign up
 router.post('/registeruser',[
     body('name', 'Enter a valid name').isLength({min : 3}),
     body('email', 'Enter a valid email').isEmail(),
-    body('password', 'Enter a valid Password').isLength({min : 8})
+    body('password', 'Enter a valid Password').isLength({min : 8}),
+
   ], async (req, res) =>{
     
     let success  = false;
@@ -32,12 +34,11 @@ router.post('/registeruser',[
        const secPass = await bcrypt.hash(req.body.password, salt);
  
  
-       user = await User.create({
+       user = await Admin.create({
           name : req.body.name,
           email : req.body.email,
           password : secPass,
-          isadmin:req.body.isadmin,
-          isteacher:req.body.isteacher
+          
        })
         
        success = true;
@@ -63,12 +64,68 @@ router.post('/registeruser',[
   });
 
 
+  // Admin sign up
+router.post('/registeruser',[
+   body('name', 'Enter a valid name').isLength({min : 3}),
+   body('email', 'Enter a valid email').isEmail(),
+   body('password', 'Enter a valid Password').isLength({min : 8}),
+
+ ], async (req, res) =>{
+   
+   let success  = false;
+   const errors = validationResult(req);
+   if(!errors.isEmpty()){
+      return res.status(400).json({errors : errors.array()});
+   }
+    try{
+      let user = await User.findOne({email : req.body.email});
+      if(user){
+         return res.status(400).json({success, error : "user with this email already exits"});
+      }
+      
+      const salt = await bcrypt.genSalt(10);
+      const secPass = await bcrypt.hash(req.body.password, salt);
+
+
+      user = await Teacher.create({
+         name : req.body.name,
+         email : req.body.email,
+         password : secPass,
+         
+      })
+       
+      success = true;
+
+      const data = {
+         user:{
+            id : user.id
+         }
+      }
+      const authToken =  jwt.sign(data, JWT_SECRET);
+      console.log(success,authToken);
+      
+      res.json({success,authToken});
+
+    }
+    catch(error){
+
+      console.log(error.massage);
+      res.status(500).send("Internal server error");
+
+    }
+
+ });
+
+
   // student sign-up
 
   router.post('/registerstudent',[
-    body('name', 'Enter a valid name').isLength({min : 4}),
-    body('email', 'Enter a valid email').isEmail(),
-    body('password', 'Enter a valid Password').isLength({min : 8})
+   body('name', 'Enter a valid name').isLength({min : 3}),
+   body('email', 'Enter a valid email').isEmail(),
+   body("fathername", 'this feild can bot be empty').isLength({min:1}),
+   body('password', 'Enter a valid Password').isLength({min : 8}),
+   body('branch', 'please fill the required feild').isLength({min : 1}),
+   body('enrollment', 'this feild can not be empty').isLength({min : 2}),
   ], async (req, res) =>{
     
     let success  = false;
@@ -89,8 +146,9 @@ router.post('/registeruser',[
        student = await Student.create({
           name : req.body.name,
           email : req.body.email,
-          password : secPass,
           fathername:req.body.fathername,
+          password : secPass,
+          branch: req.body.branch,
           enrollment:req.body.enrollment
        })
         
@@ -118,8 +176,8 @@ router.post('/registeruser',[
 
   
 
-  //user login 
-  router.post('/userlogin',[
+  //Admin login 
+  router.post('/adminlogin',[
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Password can not be blank').exists(),
  ], async(req, res) =>{
@@ -134,8 +192,8 @@ router.post('/registeruser',[
  
    try {
      
-      let user = await User.findOne({email});
-      if(!user){
+      let admin = await Admin.findOne({email});
+      if(!Admin){
          return res.status(400).json({success, error : "Please try to login with correct credential"})
       }
  
@@ -146,8 +204,8 @@ router.post('/registeruser',[
         
         success = true;
         const data = {
-          user:{
-             id : user.id
+          admin:{
+             id : admin.id
           }
        }
        const authToken =  jwt.sign(data, JWT_SECRET);
@@ -162,6 +220,54 @@ router.post('/registeruser',[
  
      }
  });
+
+
+
+//  teacher login 
+
+  router.post('/teacherlogin',[
+   body('email', 'Enter a valid email').isEmail(),
+   body('password', 'Password can not be blank').exists(),
+], async(req, res) =>{
+   
+   let success = false;
+   const errors = validationResult(req);
+   if(!errors.isEmpty()){
+      return res.status(400).json({error  : errors.array()})
+   }
+
+  const {email, password} = req.body;
+
+  try {
+    
+     let teacher = await Admin.findOne({email});
+     if(!teacher){
+        return res.status(400).json({success, error : "Please try to login with correct credential"})
+     }
+
+     const passwordCompare = await bcrypt.compare(password, user.password);
+     if(!passwordCompare){
+        return res.status(400).json({success, error : "Please try to login with correct credential"})
+     }
+       
+       success = true;
+       const data = {
+         teacher:{
+            id : teacher.id
+         }
+      }
+      const authToken =  jwt.sign(data, JWT_SECRET);
+      console.log(success,authToken);
+     
+      res.json({success,authToken});
+
+  }  catch(error){
+
+      console.log(error.massage);
+      res.status(500).send(" Internal server Error ");
+
+    }
+});
 
 
  //student login 
@@ -210,34 +316,34 @@ router.post('/registeruser',[
  });
 
 
- //get user
- router.post('/getuser', fetchuser, async(req, res) =>{
+//  //get user
+//  router.post('/getuser', fetchuser, async(req, res) =>{
 
-    try {
-       let userId = req.user.id;
-       const user = await User.findById(userId).select("-password");
-       res.send(user);
-    } catch (error) {
-       console.log(error.massage);
-       res.status(500).send(" Internal server Error ");
-    }
+//     try {
+//        let userId = req.user.id;
+//        const user = await User.findById(userId).select("-password");
+//        res.send(user);
+//     } catch (error) {
+//        console.log(error.massage);
+//        res.status(500).send(" Internal server Error ");
+//     }
     
-})
+// })
 
 
-// get student
-router.post('/getstudent', fetchuser, async(req, res) =>{
+// // get student
+// router.post('/getstudent', fetchuser, async(req, res) =>{
 
-    try {
-       let studentId = req.user.id;
-       const student = await User.findById(studentId).select("-password");
-       res.send(student);
-    } catch (error) {
-       console.log(error.massage);
-       res.status(500).send(" Internal server Error ");
-    }
+//     try {
+//        let studentId = req.user.id;
+//        const student = await User.findById(studentId).select("-password");
+//        res.send(student);
+//     } catch (error) {
+//        console.log(error.massage);
+//        res.status(500).send(" Internal server Error ");
+//     }
     
-})
+// })
 
 
 

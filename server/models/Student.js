@@ -23,7 +23,11 @@ const StudentSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-
+    
+     branch:{
+       type:String,
+       required:true
+    },
     
     enrollment:{
        type:Number,

@@ -26,13 +26,13 @@ const SubjectSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    internalMarks:{
+    internalmarks:{
         type:Number,
         required:true,
         max:50
     },
     
-    externalMarks:{
+    externalmarks:{
         type:Number,
         required:true,
         max:100
