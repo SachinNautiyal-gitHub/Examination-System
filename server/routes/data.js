@@ -124,33 +124,6 @@ router.delete('/deletesubject:id', fetchUser, async(req, res)=>{
 
 
 
-// router.post('/addresult', fetchUser,[
-//     body('semster','please fill the required feild').isLength({min:1})
-// ], async(req, res)=>{
-//     let success = false;
-//     let errors = validationResult(req);
-
-//     if(!errors.isEmpty()){
-//         res.status(400).json({success:"please fill the required feilds"});
-//     }
-
-//     try {
-//         const {semester} = req.body;
-//         const result = new Result ({
-//          student:req.student.id, semester  
-//         })
-
-//         const savedResult = await result.save();
-//         res.send({savedResult});
-        
-//     } catch (error) {
-//         console.log(error.massage);
-//         res.status(500).send('Internal Server Error');
-//     }
-
-
-// })
-
 
 
 

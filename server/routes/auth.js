@@ -12,7 +12,7 @@ const fetchuser = require('../middleware/fetchuser');
 
 
 // Admin sign up
-router.post('/registeruser',[
+router.post('/registeradmin',[
     body('name', 'Enter a valid name').isLength({min : 3}),
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Enter a valid Password').isLength({min : 8}),
@@ -25,8 +25,8 @@ router.post('/registeruser',[
        return res.status(400).json({errors : errors.array()});
     }
      try{
-       let user = await User.findOne({email : req.body.email});
-       if(user){
+       let admin = await Admin.findOne({email : req.body.email});
+       if(admin){
           return res.status(400).json({success, error : "user with this email already exits"});
        }
        
@@ -44,8 +44,8 @@ router.post('/registeruser',[
        success = true;
  
        const data = {
-          user:{
-             id : user.id
+          admin:{
+             id : admin.id
           }
        }
        const authToken =  jwt.sign(data, JWT_SECRET);
@@ -64,8 +64,8 @@ router.post('/registeruser',[
   });
 
 
-  // Admin sign up
-router.post('/registeruser',[
+  // Teacher sign up
+router.post('/registerteacher',[
    body('name', 'Enter a valid name').isLength({min : 3}),
    body('email', 'Enter a valid email').isEmail(),
    body('password', 'Enter a valid Password').isLength({min : 8}),
@@ -78,8 +78,8 @@ router.post('/registeruser',[
       return res.status(400).json({errors : errors.array()});
    }
     try{
-      let user = await User.findOne({email : req.body.email});
-      if(user){
+      let teacher = await Teacher.findOne({email : req.body.email});
+      if(teacher){
          return res.status(400).json({success, error : "user with this email already exits"});
       }
       
@@ -97,8 +97,8 @@ router.post('/registeruser',[
       success = true;
 
       const data = {
-         user:{
-            id : user.id
+         teacher:{
+            id : teacher.id
          }
       }
       const authToken =  jwt.sign(data, JWT_SECRET);
@@ -193,7 +193,7 @@ router.post('/registeruser',[
    try {
      
       let admin = await Admin.findOne({email});
-      if(!Admin){
+      if(!admin){
          return res.status(400).json({success, error : "Please try to login with correct credential"})
       }
  
@@ -240,7 +240,7 @@ router.post('/registeruser',[
 
   try {
     
-     let teacher = await Admin.findOne({email});
+     let teacher = await Teacher.findOne({email});
      if(!teacher){
         return res.status(400).json({success, error : "Please try to login with correct credential"})
      }
@@ -316,34 +316,6 @@ router.post('/registeruser',[
  });
 
 
-//  //get user
-//  router.post('/getuser', fetchuser, async(req, res) =>{
-
-//     try {
-//        let userId = req.user.id;
-//        const user = await User.findById(userId).select("-password");
-//        res.send(user);
-//     } catch (error) {
-//        console.log(error.massage);
-//        res.status(500).send(" Internal server Error ");
-//     }
-    
-// })
-
-
-// // get student
-// router.post('/getstudent', fetchuser, async(req, res) =>{
-
-//     try {
-//        let studentId = req.user.id;
-//        const student = await User.findById(studentId).select("-password");
-//        res.send(student);
-//     } catch (error) {
-//        console.log(error.massage);
-//        res.status(500).send(" Internal server Error ");
-//     }
-    
-// })
 
 
 
